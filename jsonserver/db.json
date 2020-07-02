@@ -1,0 +1,14 @@
+{
+  "blogposts": [
+    {
+      "title": "Blog 1",
+      "content": "Blog1 \nBlog1 \nBlog1 \nBlog1 Blog1 \nBlog1 ",
+      "id": 1
+    },
+    {
+      "title": "Blog 2",
+      "content": "Blog2 \nBlog2",
+      "id": 2
+    }
+  ]
+}
