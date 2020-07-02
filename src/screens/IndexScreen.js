@@ -1,18 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, TouchableHighlight } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, TouchableHighlight, ToastAndroid } from 'react-native';
 import { Context } from '../context/BlogContext'
 import { AntDesign, Feather } from '@expo/vector-icons';
 import BottomButton from '../components/BottomButton';
 import Toast from '../components/Toast';
-import Constants from "expo-constants";
 
 const IndexScreen = ({ navigation }) => {
   const [visibleToast, setvisibleToast] = useState(false);
   useEffect(() => setvisibleToast(false), [visibleToast]);
-
-  const t = () => {
-    <Toast visible={visibleToast} message={messageToast} />
-  }
 
   const { state, getBlogPosts, deleteBlogPost } = useContext(Context);
   useEffect(() => {
@@ -39,7 +34,7 @@ const IndexScreen = ({ navigation }) => {
             >
               <View style={styles.row}>
                 <Text style={styles.title}>
-                  {item.title} - {item.id}
+                  {item.title}
                 </Text>
                 <TouchableOpacity onPress={() => {
                   Alert.alert(
@@ -54,7 +49,7 @@ const IndexScreen = ({ navigation }) => {
                       {
                         text: "OK", onPress: () => {
                           deleteBlogPost(item.id)
-                          setmessageToast("Deleted successfully")
+                          ToastAndroid.show("Deleted Successfully", ToastAndroid.SHORT)
                         }
                       }
                     ],

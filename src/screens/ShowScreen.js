@@ -12,8 +12,8 @@ const ShowScreen = ({ navigation }) => {
   );
 
   return (
-    <View style={{ flex: 1 }}>
-      <Text>{blogPost.title}</Text>
+    <View style={{ flex: 1, marginLeft: 5, marginTop: 5 }}>
+      <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 5 }}>{blogPost.title}</Text>
       <Text>{blogPost.content}</Text>
       <BottomButton
         navigation={navigation}
@@ -24,20 +24,6 @@ const ShowScreen = ({ navigation }) => {
     </View>
   );
 };
-
-// ShowScreen.navigationOptions = ({ navigation }) => {
-//   return {
-//     headerRight: (
-//       <TouchableOpacity
-//         onPress={() =>
-//           navigation.navigate('Edit', { id: navigation.getParam('id') })
-//         }
-//       >
-//         <EvilIcons name="pencil" size={35} />
-//       </TouchableOpacity>
-//     )
-//   };
-// };
 
 const styles = StyleSheet.create({});
 
