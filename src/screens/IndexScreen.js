@@ -1,26 +1,34 @@
-import React, { useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState, useContext, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert, TouchableHighlight } from 'react-native';
 import { Context } from '../context/BlogContext'
 import { AntDesign, Feather } from '@expo/vector-icons';
 import BottomButton from '../components/BottomButton';
-
+import Toast from '../components/Toast';
+import Constants from "expo-constants";
 
 const IndexScreen = ({ navigation }) => {
-  const { state, getBlogPosts, deleteBlogPost } = useContext(Context);
+  const [visibleToast, setvisibleToast] = useState(false);
+  useEffect(() => setvisibleToast(false), [visibleToast]);
 
+  const t = () => {
+    <Toast visible={visibleToast} message={messageToast} />
+  }
+
+  const { state, getBlogPosts, deleteBlogPost } = useContext(Context);
   useEffect(() => {
-    getBlogPosts();
+    setvisibleToast(true)
+    // getBlogPosts();
     const listener = navigation.addListener('didFocus', () => {
       getBlogPosts();
     });
-
     return () => {
       listener.remove();
     };
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} >
+      <Toast visible={visibleToast} message="Loading..." />
       <FlatList
         data={state}
         keyExtractor={blogPost => blogPost.title}
@@ -33,7 +41,27 @@ const IndexScreen = ({ navigation }) => {
                 <Text style={styles.title}>
                   {item.title} - {item.id}
                 </Text>
-                <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
+                <TouchableOpacity onPress={() => {
+                  Alert.alert(
+                    "Confirm Deletion",
+                    `Want to delete blog : ${item.title}`,
+                    [
+                      {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel"
+                      },
+                      {
+                        text: "OK", onPress: () => {
+                          deleteBlogPost(item.id)
+                          setmessageToast("Deleted successfully")
+                        }
+                      }
+                    ],
+                    { cancelable: false }
+                  );
+                }
+                }>
                   <Feather style={styles.icon} name="trash" />
                 </TouchableOpacity>
               </View>
@@ -63,7 +91,8 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   icon: {
-    fontSize: 24
+    fontSize: 24,
+    marginRight: 5
   },
   create: {
     position: "absolute",
