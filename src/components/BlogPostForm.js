@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TextInput, Button } from 'react-native';
 const BlogPostForm = ({ onSubmit, initialValues }) => {
   const [title, setTitle] = useState(initialValues.title);
   const [content, setContent] = useState(initialValues.content);
+  const [err, seterr] = useState('');
 
   return (
     <View>
@@ -18,8 +19,19 @@ const BlogPostForm = ({ onSubmit, initialValues }) => {
         style={styles.input}
         value={content}
         onChangeText={text => setContent(text)}
+        multiline
       />
-      <Button title="Save Blog Post" onPress={() => onSubmit(title, content)} />
+      <Text style={{ color: 'red', justifyContent: 'center', alignSelf: 'center', marginBottom: 10 }}>{err}</Text>
+      <View style={{ alignSelf: 'center' }}>
+        <Button title="Save Blog Post" onPress={() => {
+          if (title && content) {
+            onSubmit(title, content)
+          }
+          else {
+            seterr("Enter title and content");
+          }
+        }} />
+      </View>
     </View>
   );
 };
